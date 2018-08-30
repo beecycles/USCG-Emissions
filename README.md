@@ -1,5 +1,5 @@
 # USCG-Emissions
-Data journalism project exploring regional patterns in public toxic emissions data downloaded from the United States Coast Guard National Response Center [website](www.nrc.uscg.mil). Focusing on Louisiana issues because of previous journalism position with the [NOLA.com | The Times-Picayune](www.nola.com).
+Data journalism project exploring regional patterns in public toxic emissions data downloaded from the United States Coast Guard National Response Center [website](www.nrc.uscg.mil/). Focusing on Louisiana issues because of previous journalism position with the [NOLA.com | The Times-Picayune](www.nola.com).
 
 Analysis methods: TBD
 
