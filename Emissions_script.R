@@ -1,7 +1,8 @@
 ###################################################################################
 ################## Exploration of USCG Emissions Data in Louisiana ################
-######################### Joan Meiners 2017 #######################################
+######################### Joan Meiners 2018 #######################################
 
+### This script is for CURRENT (2018) emissions data. See separate similar scripts for other years ####
 setwd("/Users/joanmeiners/Dropbox/NOLA.com/USCG-Emissions/")
 
 #load libraries
@@ -50,7 +51,7 @@ Fatalities = Current %>%
   filter(NUMBER_FATALITIES > 0) %>%
   summarise(
     Spills = n(),
-    TOTAL_EVACUATED = sum(NUMBER_FATALITIES, na.rm = TRUE))
+    TOTAL_FATALITIES = sum(NUMBER_FATALITIES, na.rm = TRUE))
 View(Fatalities)
 
 # Road closure time by state -- La. not on current 2018 list (wonder if it would be now)
@@ -62,7 +63,7 @@ Road_closure = Current %>%
     TOTAL_ROAD_CLOSURE_TIME = sum(ROAD_CLOSURE_TIME, na.rm = TRUE))
 View(Road_closure)
 
-# Medium description by state -- La has the most spills into water
+# Medium description by state -- La has the most spills into water (1068)
 medium_desc = filter(Current, MEDIUM_DESC == "WATER") %>%
   group_by(LOCATION_STATE) %>%
   summarise(
@@ -76,9 +77,16 @@ mississippi = filter(Current, BODY_OF_WATER == "MISSISSIPPI RIVER") %>%
     Spills = n())
 View(mississippi)
 
-# sources of spills into MISSISSIPPI description by state -- La BY FAR the highest!
+# sources of spills into GULF OF MEXICO description by state -- La BY FAR the highest!
 gulf = filter(Current, BODY_OF_WATER == "GULF OF MEXICO") %>%
   group_by(LOCATION_STATE) %>%
   summarise(
     Spills = n())
 View(gulf)
+
+# companies responsible for of spills in Louisiana (many unknowns--why??)
+companies = filter(Current, LOCATION_STATE == "LA") %>%
+  group_by(RESPONSIBLE_COMPANY) %>%
+  summarise(
+    Spills = n())
+View(companies)
