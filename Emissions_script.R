@@ -6,6 +6,7 @@ setwd("/Users/joanmeiners/Dropbox/NOLA.com/USCG-Emissions/")
 
 #load libraries
 library(dplyr)
+library(tidyverse)
 
 # load data
 Current_calls = read.csv("Current_calls.csv", header = TRUE)
@@ -19,3 +20,20 @@ Current = full_join(Current, Current_incident_details)
 Current = full_join(Current, Current_material_involved)
 View(Current)
 dim(Current)
+
+# explore LA records
+sort(table(Current$RESPONSIBLE_STATE))
+sort(table(Current$LOCATION_STATE))
+head(sort(table(Current$BODY_OF_WATER), decreasing = TRUE), 20)
+table(Current$NUMBER_EVACUATED, Current$LOCATION_STATE)
+table(subset(Current, LOCATION_STATE == "LA")$NUMBER_EVACUATED)
+
+# look at how many were evacuated per state
+Evacuations = Current %>%
+  group_by(LOCATION_STATE) %>%
+  filter(NUMBER_EVACUATED > 0) %>%
+  summarise(
+    Spills = n(),
+    TOTAL_EVACUATED = sum(NUMBER_EVACUATED, na.rm = TRUE))
+View(Evacuations)
+
