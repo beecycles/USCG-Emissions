@@ -19,7 +19,7 @@ CY10_material_involved = read.csv("CY10_material_involved.csv", header = TRUE)
 CY10 = full_join(CY10_calls, CY10_incident_commons)
 CY10 = full_join(CY10, CY10_incident_details)
 CY10 = full_join(CY10, CY10_material_involved)
-View(CY10)
+#View(CY10)
 dim(CY10)
 
 # explore LA records
@@ -31,69 +31,80 @@ head(sort(table(CY10$BODY_OF_WATER), decreasing = TRUE), 20)
 SpillsCY10 = CY10 %>%
   group_by(LOCATION_STATE) %>%
   summarise(
-    CY10_Spills = n())
-View(SpillsCY10)
+    TOTAL_Spills = n())
+#View(SpillsCY10)
 
 # look at how many were evacuated per state
 EvacuationsCY10 = CY10 %>%
   group_by(LOCATION_STATE) %>%
   filter(NUMBER_EVACUATED > 0) %>%
   summarise(
-    CY10_Spills = n(),
-    CY10_TOTAL_EVACUATED = sum(NUMBER_EVACUATED, na.rm = TRUE))
-View(EvacuationsCY10)
+    EVAC_Spills = n(),
+    TOTAL_EVACUATED = sum(NUMBER_EVACUATED, na.rm = TRUE))
+#View(EvacuationsCY10)
 
 # Number injured
 InjuredCY10 = CY10 %>%
   group_by(LOCATION_STATE) %>%
   filter(NUMBER_INJURED > 0) %>%
   summarise(
-    CY10_Spills = n(),
-    CY10_TOTAL_INJURED = sum(NUMBER_INJURED, na.rm = TRUE))
-View(InjuredCY10)
+    INJ_Spills = n(),
+    TOTAL_INJURED = sum(NUMBER_INJURED, na.rm = TRUE))
+#View(InjuredCY10)
 
 # Fatalities by state
 FatalitiesCY10 = CY10 %>%
   group_by(LOCATION_STATE) %>%
   filter(NUMBER_FATALITIES > 0) %>%
   summarise(
-    CY10_Spills = n(),
-    CY10_TOTAL_FATALITIES = sum(NUMBER_FATALITIES, na.rm = TRUE))
-View(FatalitiesCY10)
+    FATAL_Spills = n(),
+    TOTAL_FATALITIES = sum(NUMBER_FATALITIES, na.rm = TRUE))
+#View(FatalitiesCY10)
 
 # Road closure time by state
 Road_closureCY10 = CY10 %>%
   group_by(LOCATION_STATE) %>%
   filter(ROAD_CLOSURE_TIME > 0) %>%
   summarise(
-    CY10_Spills = n(),
-    CY10_TOTAL_ROAD_CLOSURE_TIME = sum(ROAD_CLOSURE_TIME, na.rm = TRUE))
-View(Road_closureCY10)
+    ROADCLOSE_Spills = n(),
+    TOTAL_ROAD_CLOSURE_TIME = sum(ROAD_CLOSURE_TIME, na.rm = TRUE))
+#View(Road_closureCY10)
 
 # Medium description by state
 medium_descCY10 = filter(CY10, MEDIUM_DESC == "WATER") %>%
   group_by(LOCATION_STATE) %>%
   summarise(
-    CY10_Spills = n())
-View(medium_descCY10)
+    WATER_Spills = n())
+#View(medium_descCY10)
 
 # sources of spills into MISSISSIPPI description by state
 mississippiCY10 = filter(CY10, BODY_OF_WATER == "MISSISSIPPI RIVER") %>%
   group_by(LOCATION_STATE) %>%
   summarise(
-    CY10_Spills = n())
-View(mississippiCY10)
+    MISS_Spills = n())
+#View(mississippiCY10)
 
 # sources of spills into GULF OF MEXICO description by state
 gulfCY10 = filter(CY10, BODY_OF_WATER == "GULF OF MEXICO") %>%
   group_by(LOCATION_STATE) %>%
   summarise(
-    CY10_Spills = n())
-View(gulfCY10)
+    GULF_Spills = n())
+#View(gulfCY10)
+
+# join all state columns
+sumCY10 = full_join(SpillsCY10, EvacuationsCY10)
+sumCY10 = full_join(sumCY10, InjuredCY10)
+sumCY10 = full_join(sumCY10, FatalitiesCY10)
+sumCY10 = full_join(sumCY10, Road_closureCY10)
+sumCY10 = full_join(sumCY10, medium_descCY10)
+sumCY10 = full_join(sumCY10, mississippiCY10)
+sumCY10 = full_join(sumCY10, gulfCY10)
+sumCY10["Year"]="2010"
+View(sumCY10)
 
 # companies responsible for of spills in Louisiana
 companiesCY10 = filter(CY10, LOCATION_STATE == "LA") %>%
   group_by(RESPONSIBLE_COMPANY) %>%
   summarise(
     CY10_Spills = n())
-View(companiesCY10)
+#View(companiesCY10)

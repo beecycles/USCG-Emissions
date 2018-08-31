@@ -19,7 +19,7 @@ Current_material_involved = read.csv("Current_material_involved.csv", header = T
 Current = full_join(Current_calls, Current_incident_commons)
 Current = full_join(Current, Current_incident_details)
 Current = full_join(Current, Current_material_involved)
-View(Current)
+#View(Current)
 dim(Current)
 
 # explore LA records
@@ -31,69 +31,80 @@ head(sort(table(Current$BODY_OF_WATER), decreasing = TRUE), 20)
 SpillsCurrent = Current %>%
   group_by(LOCATION_STATE) %>%
   summarise(
-    Current_Spills = n())
-View(SpillsCurrent)
+    TOTAL_Spills = n())
+#View(SpillsCurrent)
 
 # look at how many were evacuated per state
 EvacuationsCurrent = Current %>%
   group_by(LOCATION_STATE) %>%
   filter(NUMBER_EVACUATED > 0) %>%
   summarise(
-    Current_Spills = n(),
-    Current_TOTAL_EVACUATED = sum(NUMBER_EVACUATED, na.rm = TRUE))
-View(EvacuationsCurrent)
+    EVAC_Spills = n(),
+    TOTAL_EVACUATED = sum(NUMBER_EVACUATED, na.rm = TRUE))
+#View(EvacuationsCurrent)
 
 # Number injured
 InjuredCurrent = Current %>%
   group_by(LOCATION_STATE) %>%
   filter(NUMBER_INJURED > 0) %>%
   summarise(
-    Current_Spills = n(),
-    Current_TOTAL_INJURED = sum(NUMBER_INJURED, na.rm = TRUE))
-View(InjuredCurrent)
+    INJ_Spills = n(),
+    TOTAL_INJURED = sum(NUMBER_INJURED, na.rm = TRUE))
+#View(InjuredCurrent)
 
 # Fatalities by state
 FatalitiesCurrent = Current %>%
   group_by(LOCATION_STATE) %>%
   filter(NUMBER_FATALITIES > 0) %>%
   summarise(
-    Current_Spills = n(),
-    Current_TOTAL_FATALITIES = sum(NUMBER_FATALITIES, na.rm = TRUE))
-View(FatalitiesCurrent)
+    FATAL_Spills = n(),
+    TOTAL_FATALITIES = sum(NUMBER_FATALITIES, na.rm = TRUE))
+#View(FatalitiesCurrent)
 
 # Road closure time by state
 Road_closureCurrent = Current %>%
   group_by(LOCATION_STATE) %>%
   filter(ROAD_CLOSURE_TIME > 0) %>%
   summarise(
-    Current_Spills = n(),
-    Current_TOTAL_ROAD_CLOSURE_TIME = sum(ROAD_CLOSURE_TIME, na.rm = TRUE))
-View(Road_closureCurrent)
+    ROADCLOSE_Spills = n(),
+    TOTAL_ROAD_CLOSURE_TIME = sum(ROAD_CLOSURE_TIME, na.rm = TRUE))
+#View(Road_closureCurrent)
 
 # Medium description by state
 medium_descCurrent = filter(Current, MEDIUM_DESC == "WATER") %>%
   group_by(LOCATION_STATE) %>%
   summarise(
-    Current_Spills = n())
+    WATER_Spills = n())
 View(medium_descCurrent)
 
 # sources of spills into MISSISSIPPI description by state
 mississippiCurrent = filter(Current, BODY_OF_WATER == "MISSISSIPPI RIVER") %>%
   group_by(LOCATION_STATE) %>%
   summarise(
-    Current_Spills = n())
-View(mississippiCurrent)
+    MISS_Spills = n())
+#View(mississippiCurrent)
 
 # sources of spills into GULF OF MEXICO description by state
 gulfCurrent = filter(Current, BODY_OF_WATER == "GULF OF MEXICO") %>%
   group_by(LOCATION_STATE) %>%
   summarise(
-    Current_Spills = n())
-View(gulfCurrent)
+    GULF_Spills = n())
+#View(gulfCurrent)
+
+# join all state columns
+sumCY18 = full_join(SpillsCurrent, EvacuationsCurrent)
+sumCY18 = full_join(sumCY18, InjuredCurrent)
+sumCY18 = full_join(sumCY18, FatalitiesCurrent)
+sumCY18 = full_join(sumCY18, Road_closureCurrent)
+sumCY18 = full_join(sumCY18, medium_descCurrent)
+sumCY18 = full_join(sumCY18, mississippiCurrent)
+sumCY18 = full_join(sumCY18, gulfCurrent)
+sumCY18["Year"]="2018"
+View(sumCY18)
 
 # companies responsible for of spills in Louisiana
 companiesCurrent = filter(Current, LOCATION_STATE == "LA") %>%
   group_by(RESPONSIBLE_COMPANY) %>%
   summarise(
     Current_Spills = n())
-View(companiesCurrent)
+#View(companiesCurrent)
