@@ -27,13 +27,20 @@ sort(table(CY05$RESPONSIBLE_STATE))
 sort(table(CY05$LOCATION_STATE))
 head(sort(table(CY05$BODY_OF_WATER), decreasing = TRUE), 20)
 
+# how many total spills reported per state
+SpillsCY05 = CY05 %>%
+  group_by(LOCATION_STATE) %>%
+  summarise(
+    CY05_Spills = n())
+View(SpillsCY05)
+
 # look at how many were evacuated per state
 EvacuationsCY05 = CY05 %>%
   group_by(LOCATION_STATE) %>%
   filter(NUMBER_EVACUATED > 0) %>%
   summarise(
-    Spills = n(),
-    TOTAL_EVACUATED = sum(NUMBER_EVACUATED, na.rm = TRUE))
+    CY05_Spills = n(),
+    CY05_TOTAL_EVACUATED = sum(NUMBER_EVACUATED, na.rm = TRUE))
 View(EvacuationsCY05)
 
 # Number injured
@@ -41,8 +48,8 @@ InjuredCY05 = CY05 %>%
   group_by(LOCATION_STATE) %>%
   filter(NUMBER_INJURED > 0) %>%
   summarise(
-    Spills = n(),
-    TOTAL_INJURED = sum(NUMBER_INJURED, na.rm = TRUE))
+    CY05_Spills = n(),
+    CY05_TOTAL_INJURED = sum(NUMBER_INJURED, na.rm = TRUE))
 View(InjuredCY05)
 
 # Fatalities by state
@@ -50,8 +57,8 @@ FatalitiesCY05 = CY05 %>%
   group_by(LOCATION_STATE) %>%
   filter(NUMBER_FATALITIES > 0) %>%
   summarise(
-    Spills = n(),
-    TOTAL_FATALITIES = sum(NUMBER_FATALITIES, na.rm = TRUE))
+    CY05_Spills = n(),
+    CY05_TOTAL_FATALITIES = sum(NUMBER_FATALITIES, na.rm = TRUE))
 View(FatalitiesCY05)
 
 # Road closure time by state
@@ -59,34 +66,34 @@ Road_closureCY05 = CY05 %>%
   group_by(LOCATION_STATE) %>%
   filter(ROAD_CLOSURE_TIME > 0) %>%
   summarise(
-    Spills = n(),
-    TOTAL_ROAD_CLOSURE_TIME = sum(ROAD_CLOSURE_TIME, na.rm = TRUE))
+    CY05_Spills = n(),
+    CY05_TOTAL_ROAD_CLOSURE_TIME = sum(ROAD_CLOSURE_TIME, na.rm = TRUE))
 View(Road_closureCY05)
 
 # Medium description by state
 medium_descCY05 = filter(CY05, MEDIUM_DESC == "WATER") %>%
   group_by(LOCATION_STATE) %>%
   summarise(
-    Spills = n())
+    CY05_Spills = n())
 View(medium_descCY05)
 
 # sources of spills into MISSISSIPPI description by state
 mississippiCY05 = filter(CY05, BODY_OF_WATER == "MISSISSIPPI RIVER") %>%
   group_by(LOCATION_STATE) %>%
   summarise(
-    Spills = n())
+    CY05_Spills = n())
 View(mississippiCY05)
 
 # sources of spills into GULF OF MEXICO description by state
 gulfCY05 = filter(CY05, BODY_OF_WATER == "GULF OF MEXICO") %>%
   group_by(LOCATION_STATE) %>%
   summarise(
-    Spills = n())
+    CY05_Spills = n())
 View(gulfCY05)
 
 # companies responsible for of spills in Louisiana
 companiesCY05 = filter(CY05, LOCATION_STATE == "LA") %>%
   group_by(RESPONSIBLE_COMPANY) %>%
   summarise(
-    Spills = n())
+    CY05_Spills = n())
 View(companiesCY05)

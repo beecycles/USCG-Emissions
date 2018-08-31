@@ -2,7 +2,7 @@
 ################## Exploration of USCG Emissions Data in Louisiana ################
 ######################### Joan Meiners 2018 #######################################
 
-### This script is for CURRENT (2018) emissions data. See separate similar scripts for other years ####
+### This script is for Current YEAR (2018) emissions data. See separate similar scripts for other years ####
 setwd("/Users/joanmeiners/Dropbox/NOLA.com/USCG-Emissions/")
 
 #load libraries
@@ -27,66 +27,73 @@ sort(table(Current$RESPONSIBLE_STATE))
 sort(table(Current$LOCATION_STATE))
 head(sort(table(Current$BODY_OF_WATER), decreasing = TRUE), 20)
 
+# how many total spills reported per state
+SpillsCurrent = Current %>%
+  group_by(LOCATION_STATE) %>%
+  summarise(
+    Current_Spills = n())
+View(SpillsCurrent)
+
 # look at how many were evacuated per state
-Evacuations = Current %>%
+EvacuationsCurrent = Current %>%
   group_by(LOCATION_STATE) %>%
   filter(NUMBER_EVACUATED > 0) %>%
   summarise(
-    Spills = n(),
-    TOTAL_EVACUATED = sum(NUMBER_EVACUATED, na.rm = TRUE))
-View(Evacuations)
+    Current_Spills = n(),
+    Current_TOTAL_EVACUATED = sum(NUMBER_EVACUATED, na.rm = TRUE))
+View(EvacuationsCurrent)
 
 # Number injured
-Injured = Current %>%
+InjuredCurrent = Current %>%
   group_by(LOCATION_STATE) %>%
   filter(NUMBER_INJURED > 0) %>%
   summarise(
-    Spills = n(),
-    TOTAL_INJURED = sum(NUMBER_INJURED, na.rm = TRUE))
-View(Injured)
+    Current_Spills = n(),
+    Current_TOTAL_INJURED = sum(NUMBER_INJURED, na.rm = TRUE))
+View(InjuredCurrent)
 
 # Fatalities by state
-Fatalities = Current %>%
+FatalitiesCurrent = Current %>%
   group_by(LOCATION_STATE) %>%
   filter(NUMBER_FATALITIES > 0) %>%
   summarise(
-    Spills = n(),
-    TOTAL_FATALITIES = sum(NUMBER_FATALITIES, na.rm = TRUE))
-View(Fatalities)
+    Current_Spills = n(),
+    Current_TOTAL_FATALITIES = sum(NUMBER_FATALITIES, na.rm = TRUE))
+View(FatalitiesCurrent)
 
-# Road closure time by state -- La. not on current 2018 list (wonder if it would be now)
-Road_closure = Current %>%
+# Road closure time by state
+Road_closureCurrent = Current %>%
   group_by(LOCATION_STATE) %>%
   filter(ROAD_CLOSURE_TIME > 0) %>%
   summarise(
-    Spills = n(),
-    TOTAL_ROAD_CLOSURE_TIME = sum(ROAD_CLOSURE_TIME, na.rm = TRUE))
-View(Road_closure)
+    Current_Spills = n(),
+    Current_TOTAL_ROAD_CLOSURE_TIME = sum(ROAD_CLOSURE_TIME, na.rm = TRUE))
+View(Road_closureCurrent)
 
-# Medium description by state -- La has the most spills into water (1068)
-medium_desc = filter(Current, MEDIUM_DESC == "WATER") %>%
+# Medium description by state
+medium_descCurrent = filter(Current, MEDIUM_DESC == "WATER") %>%
   group_by(LOCATION_STATE) %>%
   summarise(
-    Spills = n())
-View(medium_desc)
+    Current_Spills = n())
+View(medium_descCurrent)
 
-# sources of spills into MISSISSIPPI description by state -- La the highest
-mississippi = filter(Current, BODY_OF_WATER == "MISSISSIPPI RIVER") %>%
+# sources of spills into MISSISSIPPI description by state
+mississippiCurrent = filter(Current, BODY_OF_WATER == "MISSISSIPPI RIVER") %>%
   group_by(LOCATION_STATE) %>%
   summarise(
-    Spills = n())
-View(mississippi)
+    Current_Spills = n())
+View(mississippiCurrent)
 
-# sources of spills into GULF OF MEXICO description by state -- La BY FAR the highest!
-gulf = filter(Current, BODY_OF_WATER == "GULF OF MEXICO") %>%
+# sources of spills into GULF OF MEXICO description by state
+gulfCurrent = filter(Current, BODY_OF_WATER == "GULF OF MEXICO") %>%
   group_by(LOCATION_STATE) %>%
   summarise(
-    Spills = n())
-View(gulf)
+    Current_Spills = n())
+View(gulfCurrent)
 
-# companies responsible for of spills in Louisiana (many unknowns--why??)
-companies = filter(Current, LOCATION_STATE == "LA") %>%
+# companies responsible for of spills in Louisiana
+companiesCurrent = filter(Current, LOCATION_STATE == "LA") %>%
   group_by(RESPONSIBLE_COMPANY) %>%
   summarise(
-    Spills = n())
-View(companies)
+    Current_Spills = n())
+View(companiesCurrent)
