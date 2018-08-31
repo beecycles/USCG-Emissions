@@ -39,10 +39,10 @@ cols = c("grey","grey","grey","grey","lightblue","grey","grey","grey","grey","da
 
 # plot trend in spills in LA over time compared to state average
 quartz(height = 6, width = 10)
-ggplot(all_emissions, aes(x = Year, y = TOTAL_Spills, colour = LOCATION_STATE)) +
+ggplot(all_emissions, aes(x = Year, y = GULF_Spills, colour = LOCATION_STATE)) +
   geom_point() + 
   geom_smooth(method = "lm", color = "grey") +
-  xlab("Year") + ylab("Number of Spills") +
+  xlab("Year") + ylab("Number of Spills into Gulf of Mexico") +
   theme(axis.title = element_text(family = "Trebuchet MS", color="#666666", face="bold", size=15)) +
   theme(axis.text = element_text(family = "Trebuchet MS", color="#666666", face="bold", size=10)) +
   scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) +
@@ -50,5 +50,5 @@ ggplot(all_emissions, aes(x = Year, y = TOTAL_Spills, colour = LOCATION_STATE)) 
   scale_color_manual(values=cols)
 
 # code to save graphs
-tiff(filename = "Num_Spills", units = "in", compression = "lzw", res = 300, width = 10, height = 6)
+tiff(filename = "Gulf_Spills", units = "in", compression = "lzw", res = 300, width = 10, height = 6)
 dev.off()
