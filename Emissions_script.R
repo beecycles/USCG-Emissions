@@ -48,3 +48,7 @@ ggplot(all_emissions, aes(x = Year, y = TOTAL_Spills, colour = LOCATION_STATE)) 
   scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) +
   scale_y_continuous(labels = function(x) paste0(scales::comma(x))) +
   scale_color_manual(values=cols)
+
+# code to save graphs
+tiff(filename = "Num_Spills", units = "in", compression = "lzw", res = 300, width = 10, height = 6)
+dev.off()
