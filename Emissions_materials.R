@@ -40,17 +40,19 @@ LA_MISS_materials = LA_MISS_materials[ -c(27:65)]
 Materials = LA_MISS_materials %>%
   group_by(NAME_OF_MATERIAL) %>%
   summarise(
-    Spill_Count = n(), 
+    Spill_Count_by_material = n(), 
     Quantity = sum(AMOUNT_IN_WATER))
 View(Materials)
+write.csv(Materials, "Materials.csv", row.names = FALSE)
 
 # count spill incidences of certain responsible company
 Companies = LA_MISS_materials %>%
   filter(RESPONSIBLE_ORG_TYPE == "PRIVATE ENTERPRISE") %>%
   group_by(RESPONSIBLE_COMPANY) %>%
   summarise(
-    Count_by_company = n())
+    Spill_Count_by_company = n())
 View(Companies)
+write.csv(Companies, "Companies.csv", row.names = FALSE)
 
 # total spill quantities of certain responsible company
 Org_Type = LA_MISS_materials %>%
@@ -58,3 +60,4 @@ Org_Type = LA_MISS_materials %>%
   summarise(
     Count_by_type = n())
 View(Org_Type)
+write.csv(Org_Type, "Org_type.csv", row.names = FALSE)
