@@ -29,10 +29,11 @@ dim(all_materials)
 unique(all_materials$LOCATION_STATE)
 LA_materials = subset(all_materials, LOCATION_STATE == "LA")
 dim(LA_materials)
-LA_MISS_materials = subset(LA_materials, ADDITIONAL_MEDIUM_INFO == "MISSISSIPPI RIVER")
+names(LA_materials)
+LA_MISS_materials = subset(LA_materials, BODY_OF_WATER == "MISSISSIPPI RIVER")
 dim(LA_MISS_materials)
 names(LA_MISS_materials)
-LA_MISS_materials = LA_MISS_materials[ -c(66:119)]
+LA_MISS_materials = LA_MISS_materials[ -c(69:119)]
 LA_MISS_materials = LA_MISS_materials[ -c(27:65)]
 
 # count spill incidences of certain materials
