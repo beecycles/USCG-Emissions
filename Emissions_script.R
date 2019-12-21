@@ -11,7 +11,11 @@ library(tidyverse)
 library(ggplot2)
 
 # run other yearly scripts first to generate objects to combine
-all_emissions = full_join(sumCY08, sumCY09)
+all_emissions = full_join(sumCY04, sumCY05)
+all_emissions = full_join(all_emissions, sumCY06)
+all_emissions = full_join(all_emissions, sumCY07)
+all_emissions = full_join(all_emissions, sumCY08)
+all_emissions = full_join(all_emissions, sumCY09)
 all_emissions = full_join(all_emissions, sumCY10)
 all_emissions = full_join(all_emissions, sumCY11)
 all_emissions = full_join(all_emissions, sumCY12)
@@ -21,7 +25,7 @@ all_emissions = full_join(all_emissions, sumCY15)
 all_emissions = full_join(all_emissions, sumCY16)
 all_emissions = full_join(all_emissions, sumCY17)
 dim(all_emissions)
-all_emissions = all_emissions[,c(1,14,2:13)]
+#all_emissions = all_emissions[,c(1,14,2:14)]
 unique(all_emissions$Year)
 unique(all_emissions$LOCATION_STATE)
 View(all_emissions)
@@ -33,23 +37,31 @@ all_emissions = all_emissions[!(all_emissions$LOCATION_STATE == "AS") & !(all_em
 dim(all_emissions)
 unique(all_emissions$LOCATION_STATE)
 
+#subset for just crude and year
+crude_emissions = all_emissions[,c(1,14:15)]
+View(crude_emissions)
+
 # prep data for plotting
-all_emissions$Year = as.numeric(all_emissions$Year)
-cols = c("black","black","black","black","lightblue","black","black","black","black","darkblue","black","black","black","black","black","black","black","black","red","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","darkorange","black","black","black","black","black","black","black","black","black")
+crude_emissions$Year = as.numeric(crude_emissions$Year)
+crude_emissions = crude_emissions[crude_emissions$LOCATION_STATE == "AK" | crude_emissions$LOCATION_STATE == "LA" | crude_emissions$LOCATION_STATE == "TX" | crude_emissions$LOCATION_STATE == "CA" | crude_emissions$LOCATION_STATE == "FL" | crude_emissions$LOCATION_STATE == "OK", ]
+
+View(crude_emissions)
+cols = c("purple","grey","grey","grey","lightblue","grey","grey","grey","grey","darkblue","grey","grey","grey","grey","grey","grey","grey","grey","red","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","darkorange","grey","grey","grey","grey","grey","grey","grey","grey","grey")
 # alternate cols call for Mississippi spills plot
-#cols = c("grey","grey","black","grey","lightblue","grey","grey","grey","grey","darkblue","grey","grey","black","grey","black","grey","grey","black","red","grey","grey","grey","grey","black","black","black","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","black","darkorange","grey","grey","grey","grey","grey","black","grey","grey","grey")
+#cols = c("grey","grey","grey","grey","lightblue","grey","grey","grey","grey","darkblue","grey","grey","grey","grey","grey","grey","grey","grey","red","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","grey","darkorange","grey","grey","grey","grey","grey","grey","grey","grey","grey")
 
 # plot trend in spills in LA over time compared to state average
 quartz(height = 6, width = 10)
-ggplot(all_emissions, aes(x = Year, y = TOTAL_Spills, colour = LOCATION_STATE)) +
-  geom_point() + 
-  geom_smooth(method = "lm", color = "grey") +
-  xlab("Year") + ylab("Number of Spills") +
+ggplot(crude_emissions, aes(x = Year, y = Crude, colour = LOCATION_STATE)) +
+  geom_line() + 
+  #geom_smooth(method = "lm", color = "grey") +
+  xlab("Year") + ylab("Number of Reported Spills: \n Crude Oil into Water") +
   theme(axis.title = element_text(family = "Trebuchet MS", color="#666666", face="bold", size=15)) +
   theme(axis.text = element_text(family = "Trebuchet MS", color="#666666", face="bold", size=10)) +
-  scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) +
-  scale_y_continuous(labels = function(x) paste0(scales::comma(x))) +
-  scale_color_manual(values=cols)
+  scale_x_continuous(breaks=c(2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019)) +
+  scale_y_continuous(labels = function(x) paste0(scales::comma(x)))
+  #scale_y_log10(breaks=c(10, 100, 500, 1000), labels = function(x) paste0(scales::comma(x))) +
+  #scale_color_manual(values=cols)
 
 # code to save graphs
 #tiff(filename = "Gulf_Spills", units = "in", compression = "lzw", res = 300, width = 10, height = 6)

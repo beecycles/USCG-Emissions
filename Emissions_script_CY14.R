@@ -91,6 +91,14 @@ gulfCY14 = filter(CY14, BODY_OF_WATER == "GULF OF MEXICO") %>%
     GULF_Spills = n())
 #View(gulfCY14)
 
+# material spilled == OIL: CRUDE
+library(stringr)
+crudeCY14 = filter(CY14, str_detect(NAME_OF_MATERIAL, "CRUDE") & IF_REACHED_WATER == "YES") %>%
+  group_by(LOCATION_STATE) %>%
+  summarise(
+    Crude = n())
+View(crudeCY14)
+
 # join all state columns
 sumCY14 = full_join(SpillsCY14, EvacuationsCY14)
 sumCY14 = full_join(sumCY14, InjuredCY14)
@@ -99,6 +107,7 @@ sumCY14 = full_join(sumCY14, Road_closureCY14)
 sumCY14 = full_join(sumCY14, medium_descCY14)
 sumCY14 = full_join(sumCY14, mississippiCY14)
 sumCY14 = full_join(sumCY14, gulfCY14)
+sumCY14 = full_join(sumCY14, crudeCY14)
 sumCY14["Year"]="2014"
 View(sumCY14)
 
