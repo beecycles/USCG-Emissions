@@ -11,6 +11,6 @@ Data journalism project exploring patterns of toxic substance spills using publi
 **Analysis methods**  
 Download data from NRC for 2004 - 2019. Save sheets separately and join into a larger dataset, one per year, including all fields of interest (mainly, spill number (SEQNOS), state, material involved, if the spill reached water). Group number of spills per state and type of material (crude oil) and whether or not it reached water (yes/no). Then join all year datasets into a master dataset and plot results to show the number of spills of crude oil into water in different states between 2004 - 2017.  
 
-**Joan Meiners** is an Environmental/Data Journalist and an ecologist with a Ph.D. from the University of Florida.  
+**Joan Meiners** is an Environmental/Data Journalist and a Ph.D. ecologist.  
 More information here: www.joanmeiners.com  
 Questions may be directed to: joan.meiners@gmail.com.
