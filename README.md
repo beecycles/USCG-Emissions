@@ -1,6 +1,7 @@
 # USCG-Emissions
 **Project overview**  
-Data journalism project exploring patterns of toxic substance spills using public data from the United States Coast Guard [National Response Center](www.nrc.uscg.mil/). Focusing on Louisiana issues for the [Polluter's Paradise series](https://www.propublica.org/series/polluters-paradise), a collaboration between ProPublica, _The Times-Picayune_ and _The Advocate_.
+Data journalism project exploring patterns of toxic substance spills using public data from the United States Coast Guard [National Response Center](www.nrc.uscg.mil/). Focusing on Louisiana issues for the [Polluter's Paradise series](https://www.propublica.org/series/polluters-paradise), a collaboration between ProPublica, _The Times-Picayune_ and _The Advocate_.  
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/beecycles/USCG-Emissions/master) 
 
 **File overview**  
 **CY--.xlsx** files : were downloaded from the National Response Center database. The number represents the year, so CY01.xlsx is the NRC data file for spills reported to the Coast Guard in 2001.  
